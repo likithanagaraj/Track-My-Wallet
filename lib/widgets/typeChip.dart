@@ -3,7 +3,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_wallet_finance_app/model/transaction_type.dart';
 
@@ -38,10 +38,10 @@ class TypeChip extends StatelessWidget {
       avatar: CircleAvatar(
         backgroundColor:  isSelected ? kWhiteColor :kCardColor,
         child: Transform.rotate(
-          angle: type == TransactionType.expense ? 135 * math.pi / 180 : -45 * math.pi / 180,
-          child: FaIcon(
-            FontAwesomeIcons.arrowLeft,
-            size: 12,
+          angle: type == TransactionType.expense ? 45 * math.pi / 180 : 225 * math.pi / 180,
+          child: Icon(
+            FluentIcons.arrow_up_24_regular,
+            size: 16,
             color: isSelected ? kBlackColor : kBlackColor.withValues(alpha: 0.5),
           ),
         ),
@@ -51,7 +51,7 @@ class TypeChip extends StatelessWidget {
       showCheckmark: false,
       label: Text(
         label,
-        style: GoogleFonts.poppins(
+        style: GoogleFonts.manrope(
           color: isSelected ? kWhiteColor : kBlackColor.withValues(alpha: 0.5),
           fontSize: 12.0,
           fontWeight: FontWeight.w500,

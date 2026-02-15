@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_wallet_finance_app/model/categoryModel.dart';
 
@@ -30,16 +30,16 @@ class CategoryTile extends StatelessWidget {
           CircleAvatar(
             backgroundColor: kGreenColor.withValues(alpha: 0.1),
             radius: 17,
-            child: FaIcon(
+            child: Icon(
               category.categoryIcon,
-              size: 16,
+              size: 20,
               color: kBlackColor.withValues(alpha: 0.8),
             ),
           ),
           const SizedBox(width: 12),
           Text(
             category.categoryLabel,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.manrope(
               fontWeight: FontWeight.w500,
               fontSize: 16,
               letterSpacing: -0.2,

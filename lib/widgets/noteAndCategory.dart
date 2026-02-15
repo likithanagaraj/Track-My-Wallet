@@ -27,7 +27,7 @@ class NoteAndCategoryRow extends StatelessWidget {
             controller: noteController,
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.done,
-            style: GoogleFonts.poppins(fontSize: 12.0, letterSpacing: -0.2),
+            style: GoogleFonts.manrope(fontSize: 12.0, letterSpacing: -0.2),
             decoration: const InputDecoration(
               hintText: 'Add note',
               border: InputBorder.none,

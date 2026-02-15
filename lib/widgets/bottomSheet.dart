@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_wallet_finance_app/model/categoryModel.dart';
 
@@ -47,7 +47,7 @@ class _CategoryBottomSheetHeader extends StatelessWidget {
         children: [
           Text(
             'Select Category',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.manrope(
               fontSize: 18,
               fontWeight: FontWeight.w500,
               letterSpacing: -0.2,
@@ -55,7 +55,7 @@ class _CategoryBottomSheetHeader extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const FaIcon(FontAwesomeIcons.close, size: 18),
+            child: const Icon(FluentIcons.dismiss_24_regular, size: 24),
           ),
         ],
       ),

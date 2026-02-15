@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:track_my_wallet_finance_app/Repository/transaction_provider.dart';
 import 'package:track_my_wallet_finance_app/constants.dart';
-import 'package:track_my_wallet_finance_app/screens/homeScreen.dart';
-import 'package:track_my_wallet_finance_app/widgets/thoughts.dart';
+import 'package:track_my_wallet_finance_app/screens/currency_selection_screen.dart';
+import 'package:track_my_wallet_finance_app/widgets/contiuneButton.dart';
+import 'package:track_my_wallet_finance_app/widgets/appScreenBackground.dart';
+import 'package:track_my_wallet_finance_app/widgets/route_animations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,149 +14,116 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool _navigated = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || _navigated) return;
-
-      final isLoaded =
-          context.read<TransactionProvider>().isLoaded;
-
-      if (isLoaded) {
-        _navigated = true;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
-        );
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 70.0),
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 10.0),
-            Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      final w = constraints.maxWidth;
-                      final h = constraints.maxHeight;
-
-                      return Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              'images/confusedImage.png',
-                              height: h * 0.55,
-                            ),
-                          ),
-
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: ThoughtsTile(text: 'balance',radiusLeft: 0,radiusRight: 50,),
-                          ),
-
-                          Positioned(
-                            left: 10,
-                            top: h * 0.15,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                ThoughtsTile(text: 'income',radiusLeft: 50,radiusRight: 0,),
-                                SizedBox(height: 8),
-                                ThoughtsTile(text: 'fun',radiusLeft: 50,radiusRight: 0,),
-                                SizedBox(height: 8),
-                                ThoughtsTile(text: 'retire',radiusLeft: 50,radiusRight: 0,),
-                              ],
-                            ),
-                          ),
-
-                          Positioned(
-                            right: 10,
-                            top: h * 0.15,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
-                                ThoughtsTile(text: 'expenses',radiusLeft: 0,radiusRight: 50,),
-                                SizedBox(height: 8),
-                                ThoughtsTile(text: 'food',radiusLeft: 0,radiusRight: 50,),
-                                SizedBox(height: 8),
-                                ThoughtsTile(text: 'travel',radiusLeft: 0,radiusRight: 50,),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+      backgroundColor: kScreenBgColor,
+      body: AppScreenBackground(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 70.0),
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 70.0),
+              
+              // Image section
+              Expanded(
+                flex: 5,
+                child: TweenAnimationBuilder<double>(
+                  duration: const Duration(milliseconds: 1000),
+                  tween: Tween(begin: 0.8, end: 1.0),
+                  builder: (context, scale, child) {
+                    return Transform.scale(
+                      scale: scale,
+                      child: Opacity(
+                        opacity: (scale - 0.8) / 0.2,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: Center(
+                    child: Image.asset(
+                      'images/onboardingimage1.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
+              ),
 
-                SizedBox(height: 30.0),
-                // Content
-                Column(
-                  children: [
-                    Text(
-                      textAlign: TextAlign.center,
-                      'Track My Wallet',
-                      style: GoogleFonts.poppins(
-                        fontSize: 30,
-                        letterSpacing: -1,
-                        fontWeight: FontWeight.w600,
+              const SizedBox(height: 20.0),
+              
+              // Text Content section
+              Expanded(
+                flex: 3,
+                child: TweenAnimationBuilder<double>(
+                  duration: const Duration(milliseconds: 1200),
+                  tween: Tween(begin: 30.0, end: 0.0),
+                  builder: (context, offset, child) {
+                    return Transform.translate(
+                      offset: Offset(0, offset),
+                      child: Opacity(
+                        opacity: (30 - offset) / 30,
+                        child: child,
                       ),
-                    ),
-                    Text(
-                      textAlign: TextAlign.center,
-                      'your minimal and mindful budgeting app',
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        letterSpacing: -0.2,
-                        fontWeight: FontWeight.w500,
-                        color: kBlackColor.withValues(alpha: 0.5),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Track My Wallet',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.manrope(
+                          fontSize: 32,
+                          letterSpacing: -1.5,
+                          fontWeight: FontWeight.w700,
+                          color: kBlackColor,
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: Text(
+                          'your minimal and mindful budgeting app',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.manrope(
+                            fontSize: 16,
+                            letterSpacing: -0.2,
+                            fontWeight: FontWeight.w500,
+                            color: kBlackColor.withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-            // Button
-            // GestureDetector(
-            //   onTap: (){
-            //     Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
-            //   },
-            //   child: Container(
-            //     width: double.infinity,
-            //     padding: EdgeInsets.symmetric(
-            //       horizontal: 6.0,
-            //       vertical: 18.0
-            //     ),
-            //     decoration: BoxDecoration(
-            //       color: kBlackColor,
-            //       borderRadius: BorderRadiusGeometry.circular(16.0)
-            //     ),
-            //     child: Center(
-            //       child: Text('Continue',style: GoogleFonts.poppins(
-            //         fontWeight: FontWeight.w600,
-            //         fontSize: 22,
-            //         color:kWhiteColor
-            //       ),),
-            //     ),
-            //   ),
-            // )
-          ],
+              ),
+              
+              const SizedBox(height: 40),
+              
+              TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 1400),
+                tween: Tween(begin: 0.0, end: 1.0),
+                builder: (context, opacity, child) {
+                  return Opacity(
+                    opacity: opacity,
+                    child: child,
+                  );
+                },
+                child: ContinueButton(
+                  isEnabled: true,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      SmoothPageRoute(page: const CurrencySelectionScreen()),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

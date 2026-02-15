@@ -20,6 +20,8 @@ class TransactionModel {
   final String? note;
   @HiveField(5)
   final DateTime createdAt;
+  @HiveField(6)
+  final String? eventId;
 
   const TransactionModel({
     required this.id,
@@ -28,6 +30,7 @@ class TransactionModel {
     required this.categoryId,
     required this.createdAt,
     this.note,
+    this.eventId,
   });
 }
 

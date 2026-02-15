@@ -11,7 +11,8 @@ class TransactionInputSection extends StatelessWidget {
   final bool hasCategorySelected;
   final ValueChanged<TransactionType> onTypeChanged;
   final VoidCallback onCategoryTap;
-  final FocusNode? noteFocusNode;
+  final FocusNode noteFocusNode;
+  final FocusNode amountFocusNode;
 
   const TransactionInputSection({
     required this.amountController,
@@ -20,16 +21,20 @@ class TransactionInputSection extends StatelessWidget {
     required this.hasCategorySelected,
     required this.onTypeChanged,
     required this.onCategoryTap,
-    required this.noteFocusNode
+    required this.noteFocusNode,
+    required this.amountFocusNode
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        AmountInput(amountController: amountController),
+        AmountInput(
+            amountController: amountController,
+          amountFocusNode:amountFocusNode
+        ),
 
         NoteAndCategoryRow(
           noteFocusNode: noteFocusNode,

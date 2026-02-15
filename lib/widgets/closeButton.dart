@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../constants.dart';
 
-class CloseButtonIcon extends StatelessWidget {
+class AppCloseButton extends StatelessWidget {
   final VoidCallback onTap;
 
-  const CloseButtonIcon({required this.onTap});
+  const AppCloseButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-      child: GestureDetector(
-        onTap: onTap,
-        child: const FaIcon(FontAwesomeIcons.close, color: kBlackColor, size: 18),
+    return Padding(
+      padding: const EdgeInsets.only(top: 5),
+      child: IconButton(
+        padding: const EdgeInsets.all(12), // Larger hit area
+        onPressed: onTap,
+        icon: const Icon(
+          FluentIcons.dismiss_24_filled,
+          color: kBlackColor,
+          size: 24,
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_wallet_finance_app/constants.dart';
 import 'package:track_my_wallet_finance_app/screens/loginScreen.dart';
+import 'package:track_my_wallet_finance_app/widgets/appScreenBackground.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -15,14 +16,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      backgroundColor: kScreenBgColor,
+      body: AppScreenBackground(
+        child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 70.0),
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
 
           children: [
-            Text('Create Account',style: GoogleFonts.poppins(
+            Text('Create Account',style: GoogleFonts.manrope(
               fontSize: 32,
               fontWeight: FontWeight.w600,
               letterSpacing: 0
@@ -77,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadiusGeometry.circular(16.0)
                         ),
                         child: Center(
-                          child: Text('Continue',style: GoogleFonts.poppins(
+                          child: Text('Continue',style: GoogleFonts.manrope(
                               fontWeight: FontWeight.w600,
                               fontSize: 22,
                               color:kWhiteColor
@@ -89,14 +92,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                    Row(
                      mainAxisAlignment: MainAxisAlignment.center,
                      children: [
-                       Text('Already have account?',style: GoogleFonts.poppins(
+                       Text('Already have account?',style: GoogleFonts.manrope(
                          fontSize: 16,
                          fontWeight: FontWeight.w400,
                          color: kBlackColor
                        ),),
                        SizedBox(width: 6,),
                        Text('Login',
-                           style: GoogleFonts.poppins(
+                           style: GoogleFonts.manrope(
                            fontSize: 18,
                            fontWeight: FontWeight.w600,
                            decoration: TextDecoration.underline,
@@ -110,6 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 }

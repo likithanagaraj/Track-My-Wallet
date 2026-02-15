@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../constants.dart';
 
 class CategoryButton extends StatelessWidget {
@@ -22,9 +22,9 @@ class CategoryButton extends StatelessWidget {
         child: CircleAvatar(
           radius: 16.0,
           backgroundColor: kButtonColor,
-          child: FaIcon(
-            hasCategory ? FontAwesomeIcons.circleCheck : FontAwesomeIcons.tag,
-            size: 14,
+          child: Icon(
+            hasCategory ? FluentIcons.checkmark_circle_24_filled : FluentIcons.tag_24_filled,
+            size: 16,
             color: kWhiteColor,
           ),
         ),

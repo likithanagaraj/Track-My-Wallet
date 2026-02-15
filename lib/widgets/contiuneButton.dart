@@ -14,17 +14,16 @@ class ContinueButton extends StatelessWidget {
     return GestureDetector(
       onTap: isEnabled ? onTap : null,
       child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
         decoration: BoxDecoration(
           color: isEnabled ? kButtonColor : kButtonColor.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(50.0),
         ),
         child: Center(
           child: Text(
             'Continue',
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w500,
+            style: GoogleFonts.manrope(
+              fontWeight: FontWeight.w600,
               fontSize: 14,
               color: kWhiteColor,
             ),

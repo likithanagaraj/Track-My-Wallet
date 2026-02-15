@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants.dart';
@@ -13,7 +14,7 @@ class FloatingActionNavigatorButton extends StatelessWidget {
       elevation: 0,
       backgroundColor: kButtonColor,
       onPressed:onTap,
-      child: FaIcon(FontAwesomeIcons.plus),
+      child: Icon(FluentIcons.add_24_filled),
     );
   }
 }

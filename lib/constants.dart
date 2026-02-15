@@ -1,24 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-const kscaffolBg =Color(0xffFFFFFF);
-const kBlackColor = Color(0xff000000);
-const kWhiteColor =Color(0xffFFFFFF);
+
+// Theme colors
+const kscaffolBg = Color(0xffEDEFF1);
+const kScreenBgColor = Color(0xffEDEFF1);
+const kEllipseColor = Color(0xffDBE4F3);
+const kBlackColor = Color(0xff000100);
+const kWhiteColor =Color(0xffFFFFFD);
 const kCardColor = Color(0xffD9D9D9);
 const kButtonColor = Color(0xff252525);
 const kGreenColor = Color(0xff014E3C);
 const kRedColor = Color(0xffEB4335);
 const kKeyBoardCircleColor = Color(0xffF1F1F1);
+const kBadgeBg = Color(0xffFFFFFD);
+const kBadgeText = Color(0xff000100);
+const kOrangeColor = Color(0xffEA5A1B);
+const kBlueColor = Color(0xffDBE4F3);
 
-final ktabLabelStyle = GoogleFonts.poppins(
+final ktabLabelStyle = GoogleFonts.manrope(
     fontSize: 12,
-    letterSpacing: 0,
+    letterSpacing: -0.1,
     fontWeight: FontWeight.w500,
     height: 0,
     color: kBlackColor.withValues(alpha: 0.5)
 );
 
-final kWelcomeText = GoogleFonts.poppins(
-  fontWeight: FontWeight.w500,
-  fontSize: 22,
-  letterSpacing: -0.2,
+final kWelcomeText =   GoogleFonts.manrope(
+    fontWeight: FontWeight.w500,
+    fontSize: 22,
+    letterSpacing: -0.5,
+    color: kBlackColor.withValues(alpha: 0.8)
+);
+
+
+final klabel = GoogleFonts.manrope(
+    fontSize: 12,
+    letterSpacing: 1,
+    fontWeight: FontWeight.w500,
+    height: 0,
+    color: kBlackColor.withValues(alpha: 0.5)
 );

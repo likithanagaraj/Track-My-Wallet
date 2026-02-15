@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_wallet_finance_app/constants.dart';
 import 'dart:math' as math;
@@ -31,7 +31,7 @@ class TranscationCard extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.manrope(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0,
@@ -40,7 +40,7 @@ class TranscationCard extends StatelessWidget {
               ),
               Text(
                 value,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.manrope(
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
                   letterSpacing: -0.5,
@@ -63,10 +63,10 @@ class TranscationCard extends StatelessWidget {
               child: Center(
                 child: Transform.rotate(
                   angle: rotateNumber * math.pi / 180,
-                  child: FaIcon(
-                    FontAwesomeIcons.arrowDown,
+                  child: Icon(
+                    FluentIcons.arrow_down_24_regular,
                     color: Colors.white,
-                    size: 18,
+                    size: 20,
                   ),
                 ),
               ),

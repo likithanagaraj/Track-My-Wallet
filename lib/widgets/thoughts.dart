@@ -25,7 +25,7 @@ class ThoughtsTile extends StatelessWidget {
           color: kBlackColor.withValues(alpha: 0.5),
         )
       ),
-      child: Text(text,style: GoogleFonts.poppins(
+      child: Text(text,style: GoogleFonts.manrope(
         fontSize: 12.0,
         color: kBlackColor,
         fontWeight: FontWeight.w500,

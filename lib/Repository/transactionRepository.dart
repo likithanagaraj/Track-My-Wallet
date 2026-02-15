@@ -10,6 +10,7 @@ class TransactionRepository {
     required TransactionType type,
     required String categoryId,
     String? note,
+    DateTime? createdAt,
   }) {
     return TransactionModel(
       id: _uuid.v4(), // auto-generated
@@ -17,7 +18,7 @@ class TransactionRepository {
       type: type,
       categoryId: categoryId,
       note: note,
-      createdAt: DateTime.now(),
+      createdAt: createdAt ?? DateTime.now(),
     );
   }
 }
