@@ -10,41 +10,137 @@ import 'package:track_my_wallet_finance_app/helperFunction.dart';
 import 'package:track_my_wallet_finance_app/widgets/route_animations.dart';
 import 'package:track_my_wallet_finance_app/screens/AllTransactionsScreen.dart';
 
-class IncomeExpenseSummaryCard extends StatelessWidget {
+class IncomeExpenseSummaryCard extends StatefulWidget {
   const IncomeExpenseSummaryCard({super.key});
+
+  @override
+  State<IncomeExpenseSummaryCard> createState() => _IncomeExpenseSummaryCardState();
+}
+
+class _IncomeExpenseSummaryCardState extends State<IncomeExpenseSummaryCard> {
+  DateTime _selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final provider = context.read<TransactionProvider>();
+    DateTime firstDate = DateTime(2000);
+    if (provider.transactions.isNotEmpty) {
+      // Find the earliest transaction date
+      firstDate = provider.transactions.map((t) => t.createdAt).reduce((a, b) => a.isBefore(b) ? a : b);
+    }
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate.isAfter(DateTime.now()) ? DateTime.now() : _selectedDate,
+      firstDate: firstDate,
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: kOrangeColor,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: kBlackColor,
+            ),
+            dialogBackgroundColor: Colors.white,
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(foregroundColor: kOrangeColor),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<TransactionProvider>();
     final userPrefs = context.watch<UserPreferencesProvider>();
     final symbol = userPrefs.currencySymbol;
-    final income = provider.getIncome();
-    final expense = provider.getExpense();
-    final topCategories = provider.getTopExpenseCategories();
+    final income = provider.getIncome(date: _selectedDate);
+    final expense = provider.getExpense(date: _selectedDate);
+    final topCategories = provider.getTopExpenseCategories(date: _selectedDate);
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    final isToday = DateUtils.isSameDay(_selectedDate, DateTime.now());
+    final dateLabel = isToday 
+        ? "Today" 
+        : "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
+
+    return Column(
       children: [
-        // LEFT COLUMN
-        Expanded(
-          flex: 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10.0, left: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(child: _smallCard(context, "Expenses", expense, symbol, 2)),
-              const SizedBox(height: 4),
-              Expanded(child: _smallCard(context, "Income", income, symbol, 1)),
+              GestureDetector(
+                onTap: () => _selectDate(context),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: kBlackColor.withValues(alpha: 0.05),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.5)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(FluentIcons.calendar_ltr_24_regular, size: 14, color: kBlackColor.withValues(alpha: 0.6)),
+                      const SizedBox(width: 8),
+                      Text(
+                        dateLabel,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: kBlackColor.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(Icons.keyboard_arrow_down_rounded, size: 16, color: kBlackColor.withValues(alpha: 0.4)),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-
-        const SizedBox(width: 4),
-
-        // RIGHT SIDE
-        Expanded(flex: 1, child: _mostSpentCard(topCategories)),
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // LEFT COLUMN
+              Expanded(
+                flex: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: _smallCard(context, "Expenses", expense, symbol, 2)),
+                    const SizedBox(height: 4),
+                    Expanded(child: _smallCard(context, "Income", income, symbol, 1)),
+                  ],
+                ),
+              ),
+        
+              const SizedBox(width: 4),
+        
+              // RIGHT SIDE
+              Expanded(flex: 1, child: _mostSpentCard(topCategories)),
+            ],
+          ),
+        ),
       ],
     );
   }
+
+
+  // Update original methods to be helper functions within the state or keep as is if they don't depend on state.
+  // I will move them into the state.
 
   // ================= SMALL CARD =================
 
@@ -156,28 +252,28 @@ class IncomeExpenseSummaryCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: kscaffolBg,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         FluentIcons.data_usage_24_regular,
-                        size: 28,
+                        size: 20,
                         color: kBlackColor.withValues(alpha: 0.3),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
-                        "No spending habits yet. Start tracking to see your patterns.",
+                        "No spending habits yet. Start tracking to see patterns.",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.manrope(
                           color: kBlackColor.withValues(alpha: 0.4),
-                          fontSize: 11,
+                          fontSize: 10,
                           fontWeight: FontWeight.w500,
-                          height: 1.4,
+                          height: 1.2,
                         ),
                       ),
                     ),
@@ -209,7 +305,7 @@ class IncomeExpenseSummaryCard extends StatelessWidget {
                     "Tracking more categories helps you understand your spending better.",
                     textAlign: TextAlign.left,
                     style: GoogleFonts.manrope(
-                      color: kBlackColor.withOpacity(0.4),
+                      color: kBlackColor.withValues(alpha: 0.4),
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       height: 1.3,
@@ -282,7 +378,7 @@ class _BarItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: kOrangeColor.withOpacity(0.1),
+                          color: kOrangeColor.withValues(alpha: 0.1),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),

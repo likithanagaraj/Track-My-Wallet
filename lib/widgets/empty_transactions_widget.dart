@@ -14,7 +14,9 @@ class EmptyTransactionsWidget extends StatelessWidget {
       builder: (context, constraints) {
         return SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight.isFinite ? constraints.maxHeight : 0,
+            ),
             child: GestureDetector(
               onTap: onAddTap,
               behavior: HitTestBehavior.opaque,

@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
               
               // Text Content section
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: TweenAnimationBuilder<double>(
                   duration: const Duration(milliseconds: 1200),
                   tween: Tween(begin: 30.0, end: 0.0),
@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Track My Wallet',
+                        'Paisa Logr',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.manrope(
                           fontSize: 32,
@@ -82,18 +82,15 @@ class _SplashScreenState extends State<SplashScreen> {
                           color: kBlackColor,
                         ),
                       ),
-                      const SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: Text(
-                          'your minimal and mindful budgeting app',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.manrope(
-                            fontSize: 16,
-                            letterSpacing: -0.2,
-                            fontWeight: FontWeight.w500,
-                            color: kBlackColor.withOpacity(0.5),
-                          ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'your minimal and mindful budgeting app',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.manrope(
+                          fontSize: 15,
+                          letterSpacing: 0,
+                          fontWeight: FontWeight.w400,
+                          color: kBlackColor.withValues(alpha: 0.6),
                         ),
                       ),
                     ],
@@ -101,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               
-              const SizedBox(height: 40),
+
               
               TweenAnimationBuilder<double>(
                 duration: const Duration(milliseconds: 1400),

@@ -184,16 +184,25 @@ class _AddSpaceSheetState extends State<_AddSpaceSheet> {
             ),
             const SizedBox(height: 24),
             Text("NAME", style: klabel),
-            TextField(
-              cursorColor: kBlackColor,
-              controller: _nameController,
-              autofocus: true,
-              style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
-              decoration: InputDecoration(
-                hintText: "e.g. Vietnam Trip",
-                hintStyle: GoogleFonts.manrope(color: kBlackColor.withValues(alpha: 0.3),fontSize: 14),
-                border: UnderlineInputBorder(borderSide: BorderSide(color: kBlackColor.withValues(alpha: 0.1))),
-                focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kBlackColor)),
+            Theme(
+              data: Theme.of(context).copyWith(
+                textSelectionTheme: TextSelectionThemeData(
+                  cursorColor: kBlackColor,
+                  selectionHandleColor: kBlackColor,
+                  selectionColor: kBlackColor.withValues(alpha: 0.1),
+                ),
+              ),
+              child: TextField(
+                cursorColor: kBlackColor,
+                controller: _nameController,
+                autofocus: true,
+                style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+                decoration: InputDecoration(
+                  hintText: "e.g. Vietnam Trip",
+                  hintStyle: GoogleFonts.manrope(color: kBlackColor.withValues(alpha: 0.3),fontSize: 14),
+                  border: UnderlineInputBorder(borderSide: BorderSide(color: kBlackColor.withValues(alpha: 0.1))),
+                  focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kBlackColor)),
+                ),
               ),
             ),
             const SizedBox(height: 24),
@@ -212,7 +221,7 @@ class _AddSpaceSheetState extends State<_AddSpaceSheet> {
                       width: 50,
                       margin: const EdgeInsets.only(right: 12),
                       decoration: BoxDecoration(
-                        color: isSelected ? kBlackColor : kBlackColor.withOpacity(0.05),
+                        color: isSelected ? kBlackColor : kBlackColor.withValues(alpha: 0.05),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(_icons[index], color: isSelected ? kWhiteColor : kBlackColor, size: 20),

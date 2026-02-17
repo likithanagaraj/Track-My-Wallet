@@ -49,7 +49,13 @@ class ThousandsFormatter extends TextInputFormatter {
 
 class TransactionScreen extends StatefulWidget {
   final TransactionModel? existingTransaction;
-  const TransactionScreen({super.key, this.existingTransaction});
+  final String? initialEventId;
+
+  const TransactionScreen({
+    super.key, 
+    this.existingTransaction, 
+    this.initialEventId,
+  });
 
   @override
   State<TransactionScreen> createState() => _TransactionScreenState();
@@ -92,6 +98,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
       amountController = TextEditingController(text: "");
       noteController = TextEditingController();
       _selectedDate = DateTime.now();
+      _selectedEventId = widget.initialEventId;
     }
 
     // Auto-focus amount input if not editing
@@ -221,7 +228,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   top: 5,
                   left: 10,
                   child:  CircleAvatar(
-                    backgroundColor: Colors.red.withOpacity(0.1),
+                    backgroundColor: Colors.red.withValues(alpha: 0.1),
                     radius: 17,
                     child: IconButton(
                       onPressed: () async {
@@ -276,7 +283,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                         textSelectionTheme: TextSelectionThemeData(
                                           cursorColor: kBlackColor,
                                           selectionHandleColor: kBlackColor, // This changes the drop handle
-                                          selectionColor: kBlackColor.withOpacity(0.1), // Optional: selection highlight
+                                          selectionColor: kBlackColor.withValues(alpha: 0.1), // Optional: selection highlight
                                         ),
                                       ),
                                       child: TextField(
@@ -503,10 +510,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? kBlackColor.withOpacity(0.1) : Colors.transparent,
+          color: isSelected ? kBlackColor.withValues(alpha: 0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? kBlackColor : kBlackColor.withOpacity(0.1),
+            color: isSelected ? kBlackColor : kBlackColor.withValues(alpha: 0.1),
             width: 1,
           ),
         ),
@@ -515,7 +522,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
           style: GoogleFonts.manrope(
             fontSize: 12,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-            color: isSelected ? kBlackColor : kBlackColor.withOpacity(0.5),
+            color: isSelected ? kBlackColor : kBlackColor.withValues(alpha: 0.5),
           ),
         ),
       ),
@@ -535,7 +542,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
         ),
         content: Text(
           "This action cannot be undone and will be removed from your records.",
-          style: GoogleFonts.manrope(fontWeight: FontWeight.w500, color: kBlackColor.withOpacity(0.6), height: 1.5),
+          style: GoogleFonts.manrope(fontWeight: FontWeight.w500, color: kBlackColor.withValues(alpha: 0.6), height: 1.5),
         ),
         actions: [
           Padding(
@@ -545,12 +552,12 @@ class _TransactionScreenState extends State<TransactionScreen> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),
-                  child: Text("Cancel", style: GoogleFonts.manrope(color: kBlackColor.withOpacity(0.5), fontWeight: FontWeight.w600)),
+                  child: Text("Cancel", style: GoogleFonts.manrope(color: kBlackColor.withValues(alpha: 0.5), fontWeight: FontWeight.w600)),
                 ),
                 const SizedBox(width: 8),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
+                    color: Colors.red.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextButton(

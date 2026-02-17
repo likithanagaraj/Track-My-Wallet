@@ -88,7 +88,7 @@ class _LearnScreenState extends State<LearnScreen> {
                   style: GoogleFonts.manrope(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: kBlackColor.withOpacity(0.5),
+                    color: kBlackColor.withValues(alpha: 0.5),
                     height: 1.5,
                   ),
                 ),
@@ -127,21 +127,21 @@ class _LearnScreenState extends State<LearnScreen> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Color(int.parse(tip['color']!)).withOpacity(0.9),
-                                  Color(int.parse(tip['color']!)).withOpacity(0.6),
+                                  Color(int.parse(tip['color']!)).withValues(alpha: 0.9),
+                                  Color(int.parse(tip['color']!)).withValues(alpha: 0.6),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(32),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color(int.parse(tip['color']!)).withOpacity(0.4),
+                                  color: Color(int.parse(tip['color']!)).withValues(alpha: 0.4),
                                   blurRadius: 20,
                                   offset: const Offset(0, 10),
                                   spreadRadius: 2,
                                 ),
                               ],
                               border: Border.all(
-                                color: kWhiteColor.withOpacity(0.2),
+                                color: kWhiteColor.withValues(alpha: 0.2),
                                 width: 1.5,
                               ),
                             ),
@@ -158,7 +158,7 @@ class _LearnScreenState extends State<LearnScreen> {
                                           Container(
                                             constraints: const BoxConstraints(maxHeight: 220),
                                             decoration: BoxDecoration(
-                                              color: kWhiteColor.withOpacity(0.2),
+                                              color: kWhiteColor.withValues(alpha: 0.2),
                                               shape: BoxShape.rectangle,
                                               borderRadius: BorderRadius.circular(20)
                                             ),
@@ -186,7 +186,7 @@ class _LearnScreenState extends State<LearnScreen> {
                                             style: GoogleFonts.manrope(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
-                                              color: kBlackColor.withOpacity(0.7),
+                                              color: kBlackColor.withValues(alpha: 0.7),
                                               letterSpacing: 0,
                                               height: 1.6,
                                             ),
@@ -215,7 +215,7 @@ class _LearnScreenState extends State<LearnScreen> {
                     width: _currentPage == index ? 24 : 8,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: _currentPage == index ? kBlackColor : kBlackColor.withOpacity(0.2),
+                      color: _currentPage == index ? kBlackColor : kBlackColor.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   );

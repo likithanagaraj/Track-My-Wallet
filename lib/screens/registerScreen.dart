@@ -37,17 +37,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: 30.0,),
                 Column(
                   children: [
-                    TextField(
-                      onChanged: null,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(
-                            color: kBlackColor.withValues(alpha: 0.5)
-                          )
-                          
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        textSelectionTheme: TextSelectionThemeData(
+                          cursorColor: kBlackColor,
+                          selectionHandleColor: kBlackColor,
+                          selectionColor: kBlackColor.withValues(alpha: 0.1),
                         ),
+                      ),
+                      child: TextField(
+                        onChanged: null,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                              color: kBlackColor.withValues(alpha: 0.5)
+                            )
 
+                          ),
+
+                        ),
                       ),
                     ),
                     SizedBox(height: 24,),

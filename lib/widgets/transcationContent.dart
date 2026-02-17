@@ -9,13 +9,22 @@ import 'package:track_my_wallet_finance_app/Repository/user_preferences_provider
 import 'package:track_my_wallet_finance_app/helperFunction.dart';
 import 'package:track_my_wallet_finance_app/widgets/route_animations.dart';
 import 'package:track_my_wallet_finance_app/Repository/transaction_provider.dart';
+import 'package:track_my_wallet_finance_app/model/transaction_type.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class TranscationContent extends StatelessWidget {
   final List<TransactionWithCategory> transactions;
   final bool limitToLatestGroup;
+  final bool hideTotal;
+  final bool isScrollable;
 
-  const TranscationContent({super.key, required this.transactions, this.limitToLatestGroup = false});
+  const TranscationContent({
+    super.key, 
+    required this.transactions, 
+    this.limitToLatestGroup = false,
+    this.hideTotal = false,
+    this.isScrollable = true,
+  });
 
   String _getGroupLabel(DateTime date) {
     final now = DateTime.now();
@@ -54,29 +63,37 @@ class TranscationContent extends StatelessWidget {
     var groups = groupedTransactions.keys.toList();
     if (limitToLatestGroup && groups.isNotEmpty) groups = [groups.first];
 
+    Widget buildGroup(String label) {
+      final groupItems = groupedTransactions[label]!;
+      final totalAmount = groupItems.fold<double>(0, (sum, item) => sum + item.transaction.amount);
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _GroupHeader(label: label, totalAmount: totalAmount, symbol: symbol, hideTotal: hideTotal),
+          const Divider(thickness: 0.3, color: Colors.grey),
+          ...groupItems.asMap().entries.map((entry) {
+            return _TransactionItem(
+              tx: entry.value,
+              symbol: symbol,
+              index: entry.key,
+            );
+          }),
+          const SizedBox(height: 24),
+        ],
+      );
+    }
+
+    if (!isScrollable) {
+      return Column(
+        children: groups.map((label) => buildGroup(label)).toList(),
+      );
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.only(top: 0, bottom: 80),
       itemCount: groups.length,
-      itemBuilder: (context, groupIndex) {
-        final label = groups[groupIndex];
-        final groupItems = groupedTransactions[label]!;
-        final totalAmount = groupItems.fold<double>(0, (sum, item) => sum + item.transaction.amount);
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _GroupHeader(label: label, totalAmount: totalAmount, symbol: symbol),
-            const Divider(thickness: 0.3, color: Colors.grey),
-            ...groupItems.asMap().entries.map((entry) {
-              return _TransactionItem(
-                tx: entry.value,
-                symbol: symbol,
-                index: entry.key,
-              );
-            }),
-          ],
-        );
-      },
+      itemBuilder: (context, groupIndex) => buildGroup(groups[groupIndex]),
     );
   }
 }
@@ -85,8 +102,14 @@ class _GroupHeader extends StatelessWidget {
   final String label;
   final double totalAmount;
   final String symbol;
+  final bool hideTotal;
 
-  const _GroupHeader({required this.label, required this.totalAmount, required this.symbol});
+  const _GroupHeader({
+    required this.label, 
+    required this.totalAmount, 
+    required this.symbol,
+    required this.hideTotal,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -103,15 +126,16 @@ class _GroupHeader extends StatelessWidget {
               color: kBlackColor.withValues(alpha: 0.5),
             ),
           ),
-          Text(
-            formatCurrency(totalAmount, symbol: symbol),
-            style: GoogleFonts.manrope(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: kBlackColor,
-              letterSpacing: -0.1
+          if (!hideTotal)
+            Text(
+              formatCurrency(totalAmount, symbol: symbol),
+              style: GoogleFonts.manrope(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: kBlackColor,
+                letterSpacing: -0.1
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -161,13 +185,13 @@ class _TransactionItem extends StatelessWidget {
                 }
               },
               background: _buildSwipeBackground(
-                color: kBlackColor.withOpacity(0.05),
+                color: kBlackColor.withValues(alpha: 0.05),
                 icon: FluentIcons.edit_24_regular,
                 alignment: Alignment.centerLeft,
                 label: "Edit",
               ),
               secondaryBackground: _buildSwipeBackground(
-                color: Colors.red.withOpacity(0.05),
+                color: Colors.red.withValues(alpha: 0.05),
                 icon: FluentIcons.delete_24_regular,
                 alignment: Alignment.centerRight,
                 label: "Delete",
@@ -181,49 +205,70 @@ class _TransactionItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: kWhiteColor,
-                  radius: 16,
-                  child: Icon(tx.category.categoryIcon, size: 16, color: kBlackColor),
-                ),
-                const SizedBox(width: 14),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      hasNote ? tx.transaction.note! : tx.category.categoryLabel,
-                      style: GoogleFonts.manrope(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: -0.3,
-                      ),
+            Expanded( // 👈 KEY FIX
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: kWhiteColor,
+                    radius: 16,
+                    child: Icon(
+                      tx.category.categoryIcon, 
+                      size: 16, 
+                      color:kBlackColor,
                     ),
-                    if (hasNote)
-                      Text(tx.category.categoryLabel, style: GoogleFonts.manrope(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                        letterSpacing: 0,
-                        color: kBlackColor.withValues(alpha: 0.5),
-                      ),),
-                  ],
-                ),
-              ],
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded( // 👈 also constrain the text column
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          hasNote ? tx.transaction.note! : tx.category.categoryLabel,
+                          maxLines: 2,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.manrope(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.3,
+                          ),
+                        ),
+                        if (hasNote)
+                          Text(
+                            tx.category.categoryLabel,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.manrope(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: kBlackColor.withValues(alpha: 0.5),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Text(
-              formatCurrency(tx.transaction.amount, symbol: symbol),
-              style: GoogleFonts.manrope(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                letterSpacing: -0.7,
-                color: kBlackColor.withValues(alpha: 0.7),
+
+            const SizedBox(width: 8),
+
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 100),
+              child: Text(
+                "${tx.transaction.type == TransactionType.income ? '+' : '-'}${formatCurrency(tx.transaction.amount, symbol: symbol)}",
+                style: GoogleFonts.manrope(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.5,
+                  color: tx.transaction.type == TransactionType.income ? kGreenColor : kRedColor,
+                ),
               ),
             ),
           ],
-        ),
+        )
+
       ),
     );
   }
@@ -241,7 +286,7 @@ class _TransactionItem extends StatelessWidget {
         ),
         content: Text(
           "This action cannot be undone and will be removed from your records.",
-          style: GoogleFonts.manrope(fontWeight: FontWeight.w500, color: kBlackColor.withOpacity(0.6), height: 1.5),
+          style: GoogleFonts.manrope(fontWeight: FontWeight.w500, color: kBlackColor.withValues(alpha: 0.6), height: 1.5),
         ),
         actions: [
           Padding(
@@ -251,12 +296,12 @@ class _TransactionItem extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),
-                  child: Text("Cancel", style: GoogleFonts.manrope(color: kBlackColor.withOpacity(0.5), fontWeight: FontWeight.w600)),
+                  child: Text("Cancel", style: GoogleFonts.manrope(color: kBlackColor.withValues(alpha: 0.5), fontWeight: FontWeight.w600)),
                 ),
                 const SizedBox(width: 8),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
+                    color: Colors.red.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextButton(
@@ -290,14 +335,14 @@ class _TransactionItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (alignment == Alignment.centerLeft) ...[
-            Icon(icon, color: textColor.withOpacity(0.7), size: 20),
+            Icon(icon, color: textColor.withValues(alpha: 0.7), size: 20),
             const SizedBox(width: 8),
-            Text(label, style: GoogleFonts.manrope(color: textColor.withOpacity(0.7), fontWeight: FontWeight.w700, fontSize: 13)),
+            Text(label, style: GoogleFonts.manrope(color: textColor.withValues(alpha: 0.7), fontWeight: FontWeight.w700, fontSize: 13)),
           ],
           if (alignment == Alignment.centerRight) ...[
-            Text(label, style: GoogleFonts.manrope(color: textColor.withOpacity(0.7), fontWeight: FontWeight.w700, fontSize: 13)),
+            Text(label, style: GoogleFonts.manrope(color: textColor.withValues(alpha: 0.7), fontWeight: FontWeight.w700, fontSize: 13)),
             const SizedBox(width: 8),
-            Icon(icon, color: textColor.withOpacity(0.7), size: 20),
+            Icon(icon, color: textColor.withValues(alpha: 0.7), size: 20),
           ],
         ],
       ),

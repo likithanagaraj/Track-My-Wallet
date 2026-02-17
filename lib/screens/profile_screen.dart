@@ -7,6 +7,8 @@ import 'package:track_my_wallet_finance_app/constants.dart';
 import 'package:track_my_wallet_finance_app/widgets/contiuneButton.dart';
 import 'package:track_my_wallet_finance_app/widgets/appScreenBackground.dart';
 import 'package:track_my_wallet_finance_app/widgets/closeButton.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:track_my_wallet_finance_app/screens/feedback_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -116,12 +118,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        Colors.white.withOpacity(0.5),
-                                        Colors.white.withOpacity(0.05),
+                                        Colors.white.withValues(alpha: 0.5),
+                                        Colors.white.withValues(alpha: 0.05),
                                       ],
                                     ),
                                     border: Border.all(
-                                      color: Colors.white.withOpacity(0.2),
+                                      color: Colors.white.withValues(alpha: 0.2),
                                       width: 1.5,
                                     ),
                                   ),
@@ -141,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
-                                        color: kBlackColor.withOpacity(0.1),
+                                        color: kBlackColor.withValues(alpha: 0.1),
                                         blurRadius: 15,
                                         offset: const Offset(0, 8),
                                       ),
@@ -169,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: GoogleFonts.manrope(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: kBlackColor.withOpacity(0.6),
+                              color: kBlackColor.withValues(alpha: 0.6),
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -178,24 +180,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               textSelectionTheme: TextSelectionThemeData(
                                 cursorColor: kBlackColor,
                                 selectionHandleColor: kBlackColor,
-                                selectionColor: kBlackColor.withOpacity(0.1),
+                                selectionColor: kBlackColor.withValues(alpha: 0.1),
                               ),
                             ),
-                            child: TextField(
-                              controller: _nameController,
-                              cursorColor: kBlackColor,
-                              style: GoogleFonts.manrope(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: kWhiteColor.withOpacity(0.5),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide.none,
+                            child: Theme(
+                              data: Theme.of(context).copyWith(
+                                textSelectionTheme: TextSelectionThemeData(
+                                  cursorColor: kBlackColor,
+                                  selectionHandleColor: kBlackColor,
+                                  selectionColor: kBlackColor.withValues(alpha: 0.1),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              ),
+                              child: TextField(
+                                controller: _nameController,
+                                cursorColor: kBlackColor,
+                                style: GoogleFonts.manrope(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: kWhiteColor.withValues(alpha: 0.5),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                ),
                               ),
                             ),
                           ),
@@ -206,14 +217,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: GoogleFonts.manrope(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: kBlackColor.withOpacity(0.6),
+                              color: kBlackColor.withValues(alpha: 0.6),
                             ),
                           ),
                           const SizedBox(height: 8),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             decoration: BoxDecoration(
-                              color: kWhiteColor.withOpacity(0.5),
+                              color: kWhiteColor.withValues(alpha: 0.5),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: DropdownButtonHideUnderline(
@@ -247,6 +258,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           
+                          const SizedBox(height: 24),
+
+                          // Feedback Option
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const FeedbackScreen()),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              decoration: BoxDecoration(
+                                color: kWhiteColor.withValues(alpha: 0.5),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(FluentIcons.chat_help_24_regular, color: kBlackColor),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    'Provide Feedback',
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: kBlackColor,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(FluentIcons.chevron_right_24_regular, color: kBlackColor, size: 20),
+                                ],
+                              ),
+                            ),
+                          ),
+
                           const Spacer(),
                           const SizedBox(height: 20),
                           

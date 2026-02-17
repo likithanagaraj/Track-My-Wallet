@@ -36,8 +36,8 @@ class CustomBottomBar extends StatelessWidget {
               children: [
                 _buildNavItem(0, FluentIcons.home_24_filled, FluentIcons.home_24_regular),
                 _buildAddButton(),
-                _buildNavItem(1, FluentIcons.learning_app_24_filled, FluentIcons.book_24_regular),
-              ],
+                _buildNavItem(1, FluentIcons.data_usage_24_filled, FluentIcons.data_usage_24_regular)
+              ]
             ),
           ),
         ),

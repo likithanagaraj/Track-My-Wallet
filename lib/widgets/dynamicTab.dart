@@ -12,8 +12,15 @@ class DynamicTab extends StatefulWidget {
   final bool limitToLatestGroup;
   final Widget? trailing;
   final int initialSelectedIndex;
+  final bool showAllTab;
   
-  const DynamicTab({super.key, this.limitToLatestGroup = false, this.trailing, this.initialSelectedIndex = 0});
+  const DynamicTab({
+    super.key, 
+    this.limitToLatestGroup = false, 
+    this.trailing, 
+    this.initialSelectedIndex = 0,
+    this.showAllTab = true,
+  });
 
   @override
   _DynamicTabState createState() => _DynamicTabState();
@@ -26,6 +33,9 @@ class _DynamicTabState extends State<DynamicTab> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialSelectedIndex;
+    if (!widget.showAllTab && _selectedIndex == 0) {
+      _selectedIndex = 1; // Default to Income if All is hidden
+    }
   }
 
   @override
@@ -65,8 +75,8 @@ class _DynamicTabState extends State<DynamicTab> {
           height: 40,
           child: Row(
             children: [
-              _buildTabButton("All", 0),
-              const SizedBox(width: 8),
+              if (widget.showAllTab) _buildTabButton("All", 0),
+              if (widget.showAllTab) const SizedBox(width: 8),
               _buildTabButton("Income", 1),
               const SizedBox(width: 8),
               _buildTabButton("Expense", 2),
@@ -101,6 +111,7 @@ class _DynamicTabState extends State<DynamicTab> {
               child: TranscationContent(
                 transactions: displayedItems,
                 limitToLatestGroup: widget.limitToLatestGroup,
+                hideTotal: _selectedIndex == 0,
               ),
             ),
           ),
@@ -124,7 +135,7 @@ class _DynamicTabState extends State<DynamicTab> {
         curve: Curves.easeOutCubic,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? kBlackColor : kWhiteColor.withOpacity(0.5),
+          color: isSelected ? kBlackColor : kWhiteColor.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(25),
           border: isSelected
               ? null

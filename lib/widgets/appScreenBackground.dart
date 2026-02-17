@@ -18,51 +18,49 @@ class AppScreenBackground extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // 1. DBE4F3 ellipse (bottom layer) with drop shadow (X: -2, Y: 17, Blur: 15)
-          Positioned(
-            top: 0,
-            left: -20,
-            right: -20,
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 15),
-              child: Container(
-                width: w + 40,
-                height: 240,
-                decoration: BoxDecoration(
-                  color: kEllipseColor,
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.elliptical(300, 200),
-                  ),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: kEllipseColor.withValues(alpha: 0.6),
-                  //     offset: const Offset(-2, 20),
-                  //     blurRadius: 2,
-                  //     spreadRadius: 8,
-                  //   ),
-                  // ],
-                ),
-              ),
-            ),
-          ),
-          // 2. White circle (top layer) - layer blur 4, FFFFFF 40%
-          Positioned(
-            top: -80,
-            left: w / 2 - 120,
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 15),
-              child: Container(
-                width: 240,
-                height: 240,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: kWhiteColor.withValues(alpha: 0.4),
-                ),
-              ),
-            ),
-          ),
+          buildEllipse(context, w),
+          buildWhiteCircle(context, w),
           child,
         ],
+      ),
+    );
+  }
+
+  static Widget buildEllipse(BuildContext context, double width) {
+    return Positioned(
+      top: 0,
+      left: -20,
+      right: -20,
+      child: ImageFiltered(
+        imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 15),
+        child: Container(
+          width: width + 40,
+          height: 240,
+          decoration: const BoxDecoration(
+            color: kEllipseColor,
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.elliptical(300, 200),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Widget buildWhiteCircle(BuildContext context, double width) {
+    return Positioned(
+      top: -80,
+      left: width / 2 - 120,
+      child: ImageFiltered(
+        imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 15),
+        child: Container(
+          width: 240,
+          height: 240,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: kWhiteColor.withValues(alpha: 0.4),
+          ),
+        ),
       ),
     );
   }

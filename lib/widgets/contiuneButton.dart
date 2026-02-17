@@ -7,7 +7,14 @@ import '../constants.dart';
 class ContinueButton extends StatelessWidget {
   final VoidCallback onTap;
   final bool isEnabled;
-  const ContinueButton({required this.onTap,required this.isEnabled});
+  final String text; // Added text parameter
+
+  const ContinueButton({
+    super.key, 
+    required this.onTap,
+    required this.isEnabled,
+    this.text = 'Continue', // Default value
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,7 @@ class ContinueButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            'Continue',
+            text,
             style: GoogleFonts.manrope(
               fontWeight: FontWeight.w600,
               fontSize: 14,

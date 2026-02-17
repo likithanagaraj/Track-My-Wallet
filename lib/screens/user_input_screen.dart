@@ -119,8 +119,8 @@ class _UserInputScreenState extends State<UserInputScreen> {
                     data: Theme.of(context).copyWith(
                       textSelectionTheme: TextSelectionThemeData(
                         cursorColor: kBlackColor,
-                        selectionHandleColor: kBlackColor, // This changes the drop handle
-                        selectionColor: kBlackColor.withOpacity(0.1), // Optional: selection highlight
+                        selectionHandleColor: kBlackColor,
+                        selectionColor: kBlackColor.withValues(alpha: 0.1),
                       ),
                     ),
                     child: TextField(

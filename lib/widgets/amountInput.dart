@@ -21,26 +21,35 @@ class AmountInput extends StatelessWidget {
           color: kBlackColor,
         ),),
         IntrinsicWidth(
-          child: TextField(
-            controller: amountController,
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            focusNode: amountFocusNode,
-            cursorColor: kBlackColor,
-            cursorHeight: 40.0,
-            style: GoogleFonts.manrope(
-              fontSize: 40,
-              fontWeight: FontWeight.w600,
-              color: kBlackColor,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: kBlackColor,
+                selectionHandleColor: kBlackColor,
+                selectionColor: kBlackColor.withValues(alpha: 0.1),
+              ),
             ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              isDense: true,
-              contentPadding: EdgeInsets.zero,
-              hintText: '0',
-              hintStyle: GoogleFonts.manrope(
-                fontSize: 40.0,
+            child: TextField(
+              controller: amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              focusNode: amountFocusNode,
+              cursorColor: kBlackColor,
+              cursorHeight: 40.0,
+              style: GoogleFonts.manrope(
+                fontSize: 40,
                 fontWeight: FontWeight.w600,
                 color: kBlackColor,
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+                hintText: '0',
+                hintStyle: GoogleFonts.manrope(
+                  fontSize: 40.0,
+                  fontWeight: FontWeight.w600,
+                  color: kBlackColor,
+                ),
               ),
             ),
           ),
