@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 // Theme colors
 const kscaffolBg = Color(0xffEDEFF1);
@@ -16,6 +17,25 @@ const kBadgeBg = Color(0xffFFFFFD);
 const kBadgeText = Color(0xff000100);
 const kOrangeColor = Color(0xffEA5A1B);
 const kBlueColor = Color(0xffDBE4F3);
+
+const List<IconData> kSpaceIcons = [
+  FluentIcons.airplane_24_regular,
+  FluentIcons.beach_24_regular,
+  FluentIcons.food_24_regular,
+  FluentIcons.shopping_bag_24_regular,
+  FluentIcons.vehicle_car_24_regular,
+  FluentIcons.gift_24_regular,
+  FluentIcons.home_24_regular,
+  FluentIcons.sparkle_24_regular,
+];
+
+IconData getIconFromCodePoint(int codePoint) {
+  try {
+    return kSpaceIcons.firstWhere((icon) => icon.codePoint == codePoint);
+  } catch (e) {
+    return FluentIcons.circle_24_regular; // Default fallback
+  }
+}
 
 final ktabLabelStyle = GoogleFonts.manrope(
     fontSize: 12,

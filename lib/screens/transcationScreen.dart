@@ -604,7 +604,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
               value: e.id,
               child: Row(
                 children: [
-                  Icon(IconData(e.iconCodePoint, fontFamily: 'FluentSystemIcons-Regular', fontPackage: 'fluentui_system_icons'), size: 16, color: kBlackColor.withValues(alpha: 0.7)),
+                  Icon(getIconFromCodePoint(e.iconCodePoint), size: 16, color: kBlackColor.withValues(alpha: 0.7)),
                   const SizedBox(width: 8),
                   Text(e.name, style: GoogleFonts.manrope(fontSize: 14, fontWeight: FontWeight.w500,letterSpacing: 0)),
                 ],

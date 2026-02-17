@@ -121,23 +121,12 @@ class _AddSpaceSheetState extends State<_AddSpaceSheet> {
   int _selectedIconIndex = 0;
   int _selectedColorIndex = 0;
 
-  final List<IconData> _icons = [
-    FluentIcons.airplane_24_regular,
-    FluentIcons.beach_24_regular,
-    FluentIcons.food_24_regular,
-    FluentIcons.shopping_bag_24_regular,
-    FluentIcons.vehicle_car_24_regular,
-    FluentIcons.gift_24_regular,
-    FluentIcons.home_24_regular,
-    FluentIcons.sparkle_24_regular,
-  ];
-
   @override
   void initState() {
     super.initState();
     if (widget.event != null) {
       _nameController.text = widget.event!.name;
-      _selectedIconIndex = _icons.indexWhere((icon) => icon.codePoint == widget.event!.iconCodePoint);
+      _selectedIconIndex = kSpaceIcons.indexWhere((icon) => icon.codePoint == widget.event!.iconCodePoint);
       if (_selectedIconIndex == -1) _selectedIconIndex = 0;
     }
   }
@@ -212,7 +201,7 @@ class _AddSpaceSheetState extends State<_AddSpaceSheet> {
               height: 50,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: _icons.length,
+                itemCount: kSpaceIcons.length,
                 itemBuilder: (context, index) {
                   final isSelected = _selectedIconIndex == index;
                   return GestureDetector(
@@ -224,7 +213,7 @@ class _AddSpaceSheetState extends State<_AddSpaceSheet> {
                         color: isSelected ? kBlackColor : kBlackColor.withValues(alpha: 0.05),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(_icons[index], color: isSelected ? kWhiteColor : kBlackColor, size: 20),
+                      child: Icon(kSpaceIcons[index], color: isSelected ? kWhiteColor : kBlackColor, size: 20),
                     ),
                   );
                 },
@@ -267,7 +256,7 @@ class _AddSpaceSheetState extends State<_AddSpaceSheet> {
     final repository = EventRepository();
     
     final name = _nameController.text.trim();
-    final icon = _icons[_selectedIconIndex];
+    final icon = kSpaceIcons[_selectedIconIndex];
 
     if (widget.event != null) {
       final updatedEvent = EventModel(
@@ -339,10 +328,7 @@ class _SpaceCard extends StatelessWidget {
                 ]
               ),
               child: Icon(
-                IconData(event.iconCodePoint,
-                  fontFamily: 'FluentSystemIcons-Regular',
-                  fontPackage: 'fluentui_system_icons'
-                ),
+                getIconFromCodePoint(event.iconCodePoint),
                 color: kBlackColor.withValues(alpha: 0.8),
                 size: 18,
               ),
